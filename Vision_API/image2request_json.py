@@ -33,5 +33,5 @@ request = {
 filename = os.path.splitext(sys.argv[1])[0]
 
 #write request json to path where img is located
-with open(filename + '.json', 'w') as outfile:
+with open(filename + '-request.json', 'w') as outfile:
     json.dump(request, outfile)
