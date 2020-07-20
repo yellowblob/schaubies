@@ -11,6 +11,7 @@ from google.cloud.vision_v1 import enums
 from google.protobuf.json_format import MessageToDict
 
 def request_annotations(source):
+	print("annotating ...")
 	# Instantiates a client
 	client = vision.ImageAnnotatorClient()
 
@@ -74,6 +75,8 @@ def request_annotations(source):
 
 		with open(filename + '-readable.json', 'w') as outfile:
 			json.dump(output, outfile, indent=4)
+
+	print("done")
 
 if __name__ == "__main__":
 	# The name of the image file to annotate or the path to the folder with the images to batch annotate

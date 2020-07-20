@@ -7,6 +7,7 @@ import sys
 source = os.path.abspath(sys.argv[1])
 
 def heic2jpeg(source):
+	print("converting ...")
 	if (os.path.isdir(source)):
 		
 		files = []
@@ -30,7 +31,9 @@ def heic2jpeg(source):
 			)
 		filename = os.path.splitext(f)[0]
 		image.save(filename + ".jpg", "JPEG")
-		os.remove(f)
+		#os.remove(f)
+
+	print("done")
 
 if __name__ == "__main__":
 	# The name of the image file to annotate or the path to the folder with the images to batch annotate
