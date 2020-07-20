@@ -25,10 +25,12 @@ You can use the script like this:
 
 Make the request:
 
-	curl -X POST \
-	-H "Authorization: Bearer "$(gcloud auth application-default print-access-token) \
-	-H "Content-Type: application/json; charset=utf-8" \
-	https://vision.googleapis.com/v1/images:annotate -d @your-request.json > your-response.json
+```
+curl -X POST \
+-H "Authorization: Bearer "$(gcloud auth application-default print-access-token) \
+-H "Content-Type: application/json; charset=utf-8" \
+https://vision.googleapis.com/v1/images:annotate -d @request.json > your-response.json
+```
 
 ## Option 2 - Client Libraries
 
