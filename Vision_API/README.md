@@ -17,7 +17,7 @@ activate it with:
 Follow this guide to get started and try the vision API using the command line.
 <a href="https://cloud.google.com/vision/docs/quickstart-cli" target="_blank">https://cloud.google.com/vision/docs/quickstart-cli</a>
 
-Use this <a href="https://github.com/yellowblob/schaubies/blob/master/Vision_API/image2request_json.py" target="_blank">python script</a> to get a request json you can send to the Vision API.
+Use [image2request_json.py](image2request_json.py) to get a request json you can send to the Vision API.
 
 You can use the script like this:
 
@@ -35,7 +35,7 @@ Make the request:
 The Quickstart guide for using the client libraries can be found here:  
 <a href="https://cloud.google.com/vision/docs/quickstart-client-libraries" target="_blank">https://cloud.google.com/vision/docs/quickstart-client-libraries</a>
 
-Use this <a href="https://github.com/yellowblob/schaubies/blob/master/Vision_API/vision_request.py" target="_blank">python script</a> to directly request the data via python and get a reduced json, that only includes recognized labels/objects and the scores they have.
+Use [vision-request.py](vision-request.py) to directly request the data via python and get a reduced json, that only includes recognized labels/objects and the scores they have.
 
 	python vision_request.py path/to/your/img
 
