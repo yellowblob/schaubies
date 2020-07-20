@@ -35,7 +35,7 @@ Make the request:
 The Quickstart guide for using the client libraries can be found here:  
 <a href="https://cloud.google.com/vision/docs/quickstart-client-libraries" target="_blank">https://cloud.google.com/vision/docs/quickstart-client-libraries</a>
 
-Use [vision-request.py](vision-request.py) to directly request the data via python and get a reduced json, that only includes recognized labels/objects and the scores they have.
+Use [vision_request.py](vision_request.py) to directly request the data via python and get a reduced json, that only includes recognized labels/objects and the scores they have.
 
 	python vision_request.py path/to/your/img
 
