@@ -22,7 +22,7 @@ if(os.path.isdir(source)):
 	# r=root, d=directories, f = files
 	for r, d, f in os.walk(source):
 		for file in f:
-				if not '.DS_Store' in file:
+				if not '.DS_Store' in file and not '.json' in file:
 					files.append(os.path.join(r, file))
 
 	features = [
@@ -48,6 +48,25 @@ if(os.path.isdir(source)):
 		filename = os.path.splitext(f)[0]
 		with open(filename + '-origin.json', 'w') as outfile:
 			json.dump(response['responses'][i], outfile, indent=4)
+
+		labels = []
+		objects = []
+
+		if 'labelAnnotations' in response['responses'][i]:
+			for annotation in response['responses'][i]['labelAnnotations']:
+				labels.append(annotation['description'] + ' (' + str(annotation['score']) + ')')
+		if 'localizedObjectAnnotations' in response['responses'][i]:
+			for annotation in response['responses'][i]['localizedObjectAnnotations']:
+				objects.append(annotation['name'] + ' (' + str(annotation['score']) + ')')
+
+		output = {
+			'labels' : labels,
+			'objects': objects
+		}		
+
+		#write request json to path where img is located
+		with open(filename + '-readable.json', 'w') as outfile:
+			json.dump(output, outfile, indent=4)
 
 else :
 
