@@ -10,6 +10,14 @@ from google.cloud.vision_v1 import enums
 
 from google.protobuf.json_format import MessageToDict
 
+def divide_chunks(l, n): 
+      
+    # looping till length l 
+    for i in range(0, len(l), n):  
+        yield l[i:i + n] 
+  
+MAX_BATCH_SIZE = 16
+
 def request_annotations(source):
 	print("annotating ...")
 	# Instantiates a client
@@ -43,38 +51,41 @@ def request_annotations(source):
 			content = image_file.read()
 		requests.append({"image": types.Image(content=content), "features": features})
 
-	#make request
-	response = client.batch_annotate_images(requests)
+	requests = list(divide_chunks(requests, MAX_BATCH_SIZE))
 
-	#transform request to dict
-	response = MessageToDict(response)
+	for j, request in enumerate(requests):
+		#make request
+		response = client.batch_annotate_images(request)
 
-	#output response as json
-	for i, f in enumerate(files):
+		#transform request to dict
+		response = MessageToDict(response)
 
-		#write full response json to path where img is located
-		filename = os.path.splitext(f)[0]
-		with open(filename + '-origin.json', 'w') as outfile:
-			json.dump(response['responses'][i], outfile, indent=4)
+		#output response as json
+		for i, f in enumerate(response['responses']):
 
-		#write simplifide response json to path where img is located
-		labels = []
-		objects = []
+			#write full response json to path where img is located
+			filename = os.path.splitext(files[i+16*j])[0]
+			with open(filename + '-origin.json', 'w') as outfile:
+				json.dump(response['responses'][i], outfile, indent=4)
 
-		if 'labelAnnotations' in response['responses'][i]:
-			for annotation in response['responses'][i]['labelAnnotations']:
-				labels.append(annotation['description'] + ' (' + str(annotation['score']) + ')')
-		if 'localizedObjectAnnotations' in response['responses'][i]:
-			for annotation in response['responses'][i]['localizedObjectAnnotations']:
-				objects.append(annotation['name'] + ' (' + str(annotation['score']) + ')')
+			#write simplifide response json to path where img is located
+			labels = []
+			objects = []
 
-		output = {
-			'labels' : labels,
-			'objects': objects
-		}		
+			if 'labelAnnotations' in response['responses'][i]:
+				for annotation in response['responses'][i]['labelAnnotations']:
+					labels.append(annotation['description'] + ' (' + str(annotation['score']) + ')')
+			if 'localizedObjectAnnotations' in response['responses'][i]:
+				for annotation in response['responses'][i]['localizedObjectAnnotations']:
+					objects.append(annotation['name'] + ' (' + str(annotation['score']) + ')')
 
-		with open(filename + '-readable.json', 'w') as outfile:
-			json.dump(output, outfile, indent=4)
+			output = {
+				'labels' : labels,
+				'objects': objects
+			}		
+
+			with open(filename + '-readable.json', 'w') as outfile:
+				json.dump(output, outfile, indent=4)
 
 	print("done")
 
